@@ -1,0 +1,50 @@
+# Lewisham Council — Home Assistant Integration
+
+A [HACS](https://hacs.xyz) custom integration that adds waste collection
+schedule sensors for Lewisham addresses to Home Assistant.
+
+## What it provides
+
+- A two-stage config flow: enter your postcode or street, then select your
+  exact address. The UPRN is stored; no re-search is needed on restart.
+- One `sensor` per waste stream (Food Waste, Recycling, Refuse) with
+  `device_class: date` so the next collection date displays cleanly on
+  dashboards. Frequency, weekday, and date-basis are available as attributes.
+- A single device per address, grouped in the HA device registry.
+- Automatic polling every 12 hours via HA's shared coordinator pattern.
+
+## Installation via HACS
+
+1. Add this repository as a custom repository in HACS (category: Integration).
+2. Install **Lewisham Council**.
+3. Restart Home Assistant.
+4. Go to **Settings → Devices & Services → Add integration** and search for
+   *Lewisham Council*.
+
+## Manual installation
+
+Copy `custom_components/lewisham_council/` into your HA `custom_components/`
+directory and restart Home Assistant.
+
+## Requirements
+
+- Home Assistant ≥ 2024.6
+- `lewisham-council-client==0.1.0` (installed automatically by HA from
+  `manifest.json`)
+
+## Development
+
+```bash
+uv sync --group dev
+uv run pytest -v
+uv run ruff check .
+uv run mypy custom_components/lewisham_council/
+```
+
+## Planned
+
+- `v0.2.0`: calendar entity with recurrence expansion for fortnightly streams.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE).

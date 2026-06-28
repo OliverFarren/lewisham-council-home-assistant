@@ -1,0 +1,36 @@
+[project]
+name = "lewisham-council-home-assistant"
+version = "0.1.0"
+description = "Home Assistant custom integration for Lewisham Council bin collections"
+requires-python = ">=3.13"
+# Runtime dependencies are declared in manifest.json and installed by HA/HACS.
+# This section is for dev tooling only.
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "lewisham-council-client==0.1.0",
+    "pytest-homeassistant-custom-component",
+    "ruff>=0.9",
+    "mypy>=1.14",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+# Ensure the project root is on sys.path so HA's custom-component namespace
+# package discovery can find custom_components/lewisham_council/.
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+# homeassistant ships its own stubs; allow missing stubs for packages that don't.
+ignore_missing_imports = true
