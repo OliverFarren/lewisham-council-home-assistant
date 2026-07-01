@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Wyszukaj swój adres",
+        "description": "Wprowadź kod pocztowy lub nazwę ulicy, aby znaleźć swoją nieruchomość.",
+        "data": {
+          "query": "Kod pocztowy lub nazwa ulicy"
+        },
+        "data_description": {
+          "query": "Wprowadź pełny kod pocztowy Lewisham lub część nazwy ulicy."
+        }
+      },
+      "select": {
+        "title": "Wybierz swój adres",
+        "description": "Wybierz swoją nieruchomość z poniższej listy.",
+        "data": {
+          "uprn": "Adres"
+        },
+        "data_description": {
+          "uprn": "Wybierz adres, dla którego chcesz dodać harmonogram odbioru odpadów."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie można połączyć się z Lewisham Council. Sprawdź połączenie i spróbuj ponownie.",
+      "invalid_query": "Wyszukiwane hasło musi mieć co najmniej 3 znaki.",
+      "no_addresses_found": "Nie znaleziono żadnych adresów. Spróbuj innego kodu pocztowego lub nazwy ulicy.",
+      "unknown": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
+    },
+    "abort": {
+      "already_configured": "Ten adres jest już skonfigurowany."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Usługa Lewisham Council jest niedostępna: {error}"
+    },
+    "schedule_not_found": {
+      "message": "Nie znaleziono harmonogramu odbioru dla UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Nieoczekiwany błąd podczas pobierania harmonogramu odbioru: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}

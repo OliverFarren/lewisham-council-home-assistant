@@ -10,11 +10,15 @@ import pytest
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers.icon import async_get_icons
 from pytest_homeassistant_custom_component.common import MockConfigEntry, async_fire_time_changed
 
 from custom_components.lewisham_council_bins.const import CONF_ADDRESS, CONF_UPRN, DOMAIN
 from custom_components.lewisham_council_bins.coordinator import LewishamUpdateCoordinator
-from custom_components.lewisham_council_bins.sensor import LewishamCollectionSensor
+from custom_components.lewisham_council_bins.sensor import (
+    LewishamCollectionSensor,
+    _translation_key,
+)
 
 from .conftest import MOCK_ADDRESS, MOCK_SCHEDULE, MOCK_UPRN
 
@@ -93,6 +97,44 @@ async def test_sensor_attributes_are_populated(
     assert attrs["next_collection_basis"] == "published"
     assert "source_url" in attrs
     assert "fetched_at" in attrs
+
+
+async def test_sensor_name_resolves_via_translation(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry
+) -> None:
+    """The entity name resolves through translation_key/placeholders, not _attr_name."""
+    state = hass.states.get(_entity_id(hass, "food_waste"))
+    assert state is not None
+    assert state.attributes["friendly_name"] == f"{MOCK_ADDRESS} Food Waste"
+
+
+@pytest.mark.parametrize(
+    ("waste_type", "expected_key"),
+    [
+        ("Food Waste", "food_waste"),
+        ("Recycling", "recycling"),
+        ("Refuse", "refuse"),
+        ("Garden Waste", "garden_waste"),
+        ("Household Rubbish", "refuse"),
+        ("Bulky Waste", "other"),
+        ("Non-recyclable Waste", "refuse"),
+        ("Non recyclable Waste", "refuse"),
+    ],
+)
+def test_translation_key_classifies_known_and_unknown_waste_types(
+    waste_type: str, expected_key: str
+) -> None:
+    """Known waste-type strings map to a specific icon/name key; others fall back to 'other'."""
+    assert _translation_key(waste_type) == expected_key
+
+
+async def test_icons_are_defined_for_every_translation_key(hass: HomeAssistant) -> None:
+    """icons.json has an entry for every translation_key the classifier can produce."""
+    icons = await async_get_icons(hass, "entity", integrations={DOMAIN})
+    sensor_icons = icons[DOMAIN]["sensor"]
+    for expected_key in {"food_waste", "recycling", "garden_waste", "refuse", "other"}:
+        assert expected_key in sensor_icons
+        assert sensor_icons[expected_key]["default"].startswith("mdi:")
 
 
 async def test_sensor_device_class_is_date(

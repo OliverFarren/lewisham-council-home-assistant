@@ -31,5 +31,35 @@
     "abort": {
       "already_configured": "This address is already configured."
     }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Lewisham Council service unavailable: {error}"
+    },
+    "schedule_not_found": {
+      "message": "No collection schedule found for UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Unexpected error fetching collection schedule: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
   }
 }

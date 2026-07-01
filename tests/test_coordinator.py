@@ -26,33 +26,42 @@ async def test_successful_refresh_stores_schedule(hass: HomeAssistant) -> None:
     mock_service.get_collection_schedule.assert_awaited_once_with(MOCK_UPRN)
 
 
-async def test_upstream_unavailable_raises_update_failed(hass: HomeAssistant) -> None:
-    """UpstreamUnavailableError is re-raised as UpdateFailed (transient failure)."""
+@pytest.mark.parametrize(
+    ("side_effect", "expected_key", "expected_placeholders"),
+    [
+        pytest.param(
+            UpstreamUnavailableError("timeout"),
+            "schedule_unavailable",
+            {"error": "timeout"},
+            id="upstream_unavailable",
+        ),
+        pytest.param(
+            CollectionScheduleNotFoundError("no schedule for uprn"),
+            "schedule_not_found",
+            {"uprn": MOCK_UPRN, "error": "no schedule for uprn"},
+            id="schedule_not_found",
+        ),
+        pytest.param(
+            DomainError("unexpected response"),
+            "schedule_unexpected_error",
+            {"error": "unexpected response"},
+            id="unexpected_domain_error",
+        ),
+    ],
+)
+async def test_client_errors_raise_translated_update_failed(
+    hass: HomeAssistant,
+    side_effect: Exception,
+    expected_key: str,
+    expected_placeholders: dict[str, str],
+) -> None:
+    """Each client-library error is re-raised as a correspondingly translated UpdateFailed."""
     mock_service = AsyncMock()
-    mock_service.get_collection_schedule.side_effect = UpstreamUnavailableError("timeout")
+    mock_service.get_collection_schedule.side_effect = side_effect
 
     coordinator = LewishamUpdateCoordinator(hass, mock_service, MOCK_UPRN, MOCK_ADDRESS)
-    with pytest.raises(UpdateFailed, match="unavailable"):
+    with pytest.raises(UpdateFailed) as exc_info:
         await coordinator._async_update_data()
 
-
-async def test_schedule_not_found_raises_update_failed(hass: HomeAssistant) -> None:
-    """CollectionScheduleNotFoundError is re-raised as UpdateFailed."""
-    mock_service = AsyncMock()
-    mock_service.get_collection_schedule.side_effect = CollectionScheduleNotFoundError(
-        "no schedule for uprn"
-    )
-
-    coordinator = LewishamUpdateCoordinator(hass, mock_service, MOCK_UPRN, MOCK_ADDRESS)
-    with pytest.raises(UpdateFailed, match="No collection schedule"):
-        await coordinator._async_update_data()
-
-
-async def test_unexpected_domain_error_raises_update_failed(hass: HomeAssistant) -> None:
-    """Other client domain errors are re-raised as UpdateFailed."""
-    mock_service = AsyncMock()
-    mock_service.get_collection_schedule.side_effect = DomainError("unexpected response")
-
-    coordinator = LewishamUpdateCoordinator(hass, mock_service, MOCK_UPRN, MOCK_ADDRESS)
-    with pytest.raises(UpdateFailed, match="Unexpected error"):
-        await coordinator._async_update_data()
+    assert exc_info.value.translation_key == expected_key
+    assert exc_info.value.translation_placeholders == expected_placeholders

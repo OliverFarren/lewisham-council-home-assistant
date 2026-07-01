@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cerca il tuo indirizzo",
+        "description": "Inserisci il CAP o il nome della via per trovare la tua proprietà.",
+        "data": {
+          "query": "CAP o nome della via"
+        },
+        "data_description": {
+          "query": "Inserisci un CAP completo di Lewisham o parte del nome di una via."
+        }
+      },
+      "select": {
+        "title": "Seleziona il tuo indirizzo",
+        "description": "Seleziona la tua proprietà dall'elenco sottostante.",
+        "data": {
+          "uprn": "Indirizzo"
+        },
+        "data_description": {
+          "uprn": "Scegli l'indirizzo di cui vuoi aggiungere il calendario di raccolta."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile connettersi al Lewisham Council. Controlla la connessione e riprova.",
+      "invalid_query": "La ricerca deve contenere almeno 3 caratteri.",
+      "no_addresses_found": "Nessun indirizzo trovato. Prova con un altro CAP o nome di via.",
+      "unknown": "Si è verificato un errore imprevisto. Riprova."
+    },
+    "abort": {
+      "already_configured": "Questo indirizzo è già configurato."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Servizio Lewisham Council non disponibile: {error}"
+    },
+    "schedule_not_found": {
+      "message": "Nessun calendario di raccolta trovato per l'UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Errore imprevisto durante il recupero del calendario di raccolta: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}

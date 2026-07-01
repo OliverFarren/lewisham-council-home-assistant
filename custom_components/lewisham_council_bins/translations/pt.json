@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Procure a sua morada",
+        "description": "Introduza o seu código postal ou o nome da rua para encontrar a sua propriedade.",
+        "data": {
+          "query": "Código postal ou nome da rua"
+        },
+        "data_description": {
+          "query": "Introduza um código postal completo de Lewisham ou parte do nome de uma rua."
+        }
+      },
+      "select": {
+        "title": "Selecione a sua morada",
+        "description": "Selecione a sua propriedade na lista abaixo.",
+        "data": {
+          "uprn": "Morada"
+        },
+        "data_description": {
+          "uprn": "Escolha a morada cujo calendário de recolha pretende adicionar."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível ligar ao Lewisham Council. Verifique a sua ligação e tente novamente.",
+      "invalid_query": "A pesquisa deve ter pelo menos 3 caracteres.",
+      "no_addresses_found": "Não foram encontradas moradas. Tente outro código postal ou nome de rua.",
+      "unknown": "Ocorreu um erro inesperado. Tente novamente."
+    },
+    "abort": {
+      "already_configured": "Esta morada já está configurada."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Serviço do Lewisham Council indisponível: {error}"
+    },
+    "schedule_not_found": {
+      "message": "Não foi encontrado nenhum calendário de recolha para o UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Erro inesperado ao obter o calendário de recolha: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}

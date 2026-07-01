@@ -101,6 +101,13 @@ property's UPRN, allowing the same collection type to be added for more than
 one address. Home Assistant may add a numeric suffix to avoid an entity ID
 collision when multiple addresses are configured.
 
+Each sensor gets a default icon based on its collection type: a food-waste
+icon for Food Waste, a recycling icon for Recycling, a leaf for Garden Waste,
+and a bin icon for Refuse or other rubbish streams. A collection type the
+integration does not recognise still gets a sensor, with a generic bin icon.
+Override any of these per entity from **Settings → Devices & services** if
+you prefer a different icon.
+
 The integration is read-only. It does not provide actions, controls, calendar
 entities, or facilities for reporting missed collections.
 
@@ -111,6 +118,15 @@ entities, or facilities for reporting missed collections.
   you to put bins out.
 - Add more than one address to keep track of collections for relatives,
   neighbours, or another property in Lewisham.
+
+## Languages
+
+Alongside English, the setup screens and error messages are available in
+Spanish, Tamil, Portuguese, Romanian, Italian, French, and Polish. These are
+the most common languages spoken in the London Borough of Lewisham other than
+English, according to the council's [Picture of Lewisham 2025](https://www.observatory.lewisham.gov.uk/wp-content/uploads/2025/09/Picture_of_Lewisham_2025_updated_September_2025.pdf)
+report. Home Assistant selects a translation automatically based on your
+configured language, falling back to English for any missing text.
 
 ## Examples
 

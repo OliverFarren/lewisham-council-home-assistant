@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Recherchez votre adresse",
+        "description": "Saisissez votre code postal ou le nom de votre rue pour trouver votre propriété.",
+        "data": {
+          "query": "Code postal ou nom de rue"
+        },
+        "data_description": {
+          "query": "Saisissez un code postal complet de Lewisham ou une partie du nom d'une rue."
+        }
+      },
+      "select": {
+        "title": "Sélectionnez votre adresse",
+        "description": "Sélectionnez votre propriété dans la liste ci-dessous.",
+        "data": {
+          "uprn": "Adresse"
+        },
+        "data_description": {
+          "uprn": "Choisissez l'adresse pour laquelle vous souhaitez ajouter le calendrier de collecte."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter au Lewisham Council. Vérifiez votre connexion et réessayez.",
+      "invalid_query": "La recherche doit contenir au moins 3 caractères.",
+      "no_addresses_found": "Aucune adresse trouvée. Essayez un autre code postal ou nom de rue.",
+      "unknown": "Une erreur inattendue s'est produite. Veuillez réessayer."
+    },
+    "abort": {
+      "already_configured": "Cette adresse est déjà configurée."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Service du Lewisham Council indisponible : {error}"
+    },
+    "schedule_not_found": {
+      "message": "Aucun calendrier de collecte trouvé pour l'UPRN {uprn} : {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Erreur inattendue lors de la récupération du calendrier de collecte : {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}

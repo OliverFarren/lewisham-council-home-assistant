@@ -1,0 +1,21 @@
+{
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "default": "mdi:compost"
+      },
+      "recycling": {
+        "default": "mdi:recycle"
+      },
+      "garden_waste": {
+        "default": "mdi:leaf"
+      },
+      "refuse": {
+        "default": "mdi:trash-can-outline"
+      },
+      "other": {
+        "default": "mdi:trash-can"
+      }
+    }
+  }
+}

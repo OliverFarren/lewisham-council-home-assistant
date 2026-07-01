@@ -30,6 +30,34 @@ def _slug(waste_type: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", waste_type.lower()).strip("_")
 
 
+# Ordered keyword -> translation_key mapping; entries are checked in order and
+# the first match wins, so more specific phrases (e.g. a "non-recyclable" waste
+# stream, which councils use as a name for general refuse) must be listed before
+# the broader keyword they would otherwise be mistaken for ("recycl"). Keys must
+# have a matching entry in strings.json (entity name) and icons.json (entity
+# icon). Any waste-type string that matches none of these keywords falls back to
+# "other", so an unexpected new collection type from the council still gets a
+# valid name and icon.
+_TRANSLATION_KEY_KEYWORDS: tuple[tuple[str, str], ...] = (
+    ("non-recycl", "refuse"),
+    ("non recycl", "refuse"),
+    ("food", "food_waste"),
+    ("garden", "garden_waste"),
+    ("recycl", "recycling"),
+    ("refuse", "refuse"),
+    ("rubbish", "refuse"),
+)
+
+
+def _translation_key(waste_type: str) -> str:
+    """Classify a waste-type string into a known translation key, or 'other'."""
+    lowered = waste_type.lower()
+    for keyword, key in _TRANSLATION_KEY_KEYWORDS:
+        if keyword in lowered:
+            return key
+    return "other"
+
+
 def _days_until(next_collection: date | None) -> int | None:
     if next_collection is None:
         return None
@@ -82,9 +110,10 @@ class LewishamCollectionSensor(CoordinatorEntity[LewishamUpdateCoordinator], Sen
     ) -> None:
         super().__init__(coordinator)
         self._waste_type = collection.waste_type
-        slug = _slug(collection.waste_type)
+        slug = _slug(self._waste_type)
         self._attr_unique_id = f"{coordinator.uprn}_{slug}"
-        self._attr_name = collection.waste_type
+        self._attr_translation_key = _translation_key(self._waste_type)
+        self._attr_translation_placeholders = {"waste_type": self._waste_type}
         self.entity_id = f"sensor.lewisham_council_bins_{slug}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.uprn)},

@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Busca tu dirección",
+        "description": "Introduce tu código postal o el nombre de la calle para encontrar tu propiedad.",
+        "data": {
+          "query": "Código postal o nombre de la calle"
+        },
+        "data_description": {
+          "query": "Introduce un código postal completo de Lewisham o parte del nombre de una calle."
+        }
+      },
+      "select": {
+        "title": "Selecciona tu dirección",
+        "description": "Selecciona tu propiedad en la siguiente lista.",
+        "data": {
+          "uprn": "Dirección"
+        },
+        "data_description": {
+          "uprn": "Elige la dirección cuyo calendario de recogida quieres añadir."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se ha podido conectar con el Lewisham Council. Comprueba tu conexión e inténtalo de nuevo.",
+      "invalid_query": "La búsqueda debe tener al menos 3 caracteres.",
+      "no_addresses_found": "No se han encontrado direcciones. Prueba con otro código postal o nombre de calle.",
+      "unknown": "Se ha producido un error inesperado. Inténtalo de nuevo."
+    },
+    "abort": {
+      "already_configured": "Esta dirección ya está configurada."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "El servicio del Lewisham Council no está disponible: {error}"
+    },
+    "schedule_not_found": {
+      "message": "No se ha encontrado ningún calendario de recogida para el UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Error inesperado al obtener el calendario de recogida: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}

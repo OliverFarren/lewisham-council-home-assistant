@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Caută-ți adresa",
+        "description": "Introdu codul poștal sau numele străzii pentru a găsi proprietatea ta.",
+        "data": {
+          "query": "Cod poștal sau numele străzii"
+        },
+        "data_description": {
+          "query": "Introdu un cod poștal complet din Lewisham sau o parte din numele unei străzi."
+        }
+      },
+      "select": {
+        "title": "Selectează-ți adresa",
+        "description": "Selectează proprietatea din lista de mai jos.",
+        "data": {
+          "uprn": "Adresă"
+        },
+        "data_description": {
+          "uprn": "Alege adresa pentru care dorești să adaugi programul de colectare."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nu s-a putut realiza conexiunea cu Lewisham Council. Verifică-ți conexiunea și încearcă din nou.",
+      "invalid_query": "Căutarea trebuie să conțină cel puțin 3 caractere.",
+      "no_addresses_found": "Nu s-au găsit adrese. Încearcă un alt cod poștal sau nume de stradă.",
+      "unknown": "A apărut o eroare neașteptată. Încearcă din nou."
+    },
+    "abort": {
+      "already_configured": "Această adresă este deja configurată."
+    }
+  },
+  "exceptions": {
+    "schedule_unavailable": {
+      "message": "Serviciul Lewisham Council nu este disponibil: {error}"
+    },
+    "schedule_not_found": {
+      "message": "Nu a fost găsit niciun program de colectare pentru UPRN {uprn}: {error}"
+    },
+    "schedule_unexpected_error": {
+      "message": "Eroare neașteptată la obținerea programului de colectare: {error}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "food_waste": {
+        "name": "{waste_type}"
+      },
+      "recycling": {
+        "name": "{waste_type}"
+      },
+      "garden_waste": {
+        "name": "{waste_type}"
+      },
+      "refuse": {
+        "name": "{waste_type}"
+      },
+      "other": {
+        "name": "{waste_type}"
+      }
+    }
+  }
+}
