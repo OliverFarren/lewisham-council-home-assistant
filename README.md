@@ -112,6 +112,67 @@ entities, or facilities for reporting missed collections.
 - Add more than one address to keep track of collections for relatives,
   neighbours, or another property in Lewisham.
 
+## Examples
+
+### Reminder the night before a collection
+
+Bin day is easy to forget. This blueprint sends a notification the evening
+before a collection, using any sensor from this integration. Add one
+instance of the automation per bin you want a reminder for.
+
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FOliverFarren%2Flewisham-council-bins-home-assistant%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Flewisham_council_bins%2Freminder.yaml)
+
+[`reminder.yaml`](blueprints/automation/lewisham_council_bins/reminder.yaml)
+
+### Dashboard tile cards
+
+The `collection_in` and `day` attributes are designed to be used directly in
+a Lovelace tile card's `state_content`, without setting up a template sensor
+first. For example, a full-width card for the fortnightly refuse collection:
+
+```yaml
+type: tile
+grid_options:
+  columns: 12
+  rows: 1
+entity: sensor.lewisham_council_bins_refuse
+name: Black bin
+icon: mdi:trash-can-outline
+color: grey
+state_content:
+  - collection_in
+  - day
+  - state
+vertical: false
+tap_action:
+  action: more-info
+features_position: bottom
+```
+
+![A full-width tile card named "Black bin" showing "tomorrow · Thursday · 2026-07-02"](docs/images/tile-card-refuse.png)
+
+And a narrower, vertical card for recycling:
+
+```yaml
+type: tile
+grid_options:
+  columns: 4
+  rows: 1
+entity: sensor.lewisham_council_bins_recycling
+name: Recycling
+icon: mdi:trash-can-outline
+color: light-green
+state_content:
+  - collection_in
+  - day
+vertical: true
+tap_action:
+  action: more-info
+features_position: bottom
+```
+
+![A narrow, vertical tile card named "Recycling" showing "tomorrow · Thursday"](docs/images/tile-card-recycling.png)
+
 ## Prerequisites
 
 - Home Assistant 2024.6 or newer.

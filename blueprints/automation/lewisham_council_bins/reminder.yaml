@@ -1,0 +1,51 @@
+blueprint:
+  name: Lewisham Council Bins - Reminder the night before collection
+  description: >
+    Get a reminder the evening before a Lewisham Council bin collection,
+    using a sensor from the Lewisham Council Bin Collections integration
+    (https://github.com/OliverFarren/lewisham-council-bins-home-assistant).
+
+
+    Pick the sensor for the bin you want a reminder for (for example
+    `sensor.lewisham_council_bins_refuse`), a time each day to check, and the
+    action(s) to run - typically a notify action - when that bin is
+    collected tomorrow. Add one instance of this automation per bin type.
+  domain: automation
+  source_url: https://github.com/OliverFarren/lewisham-council-bins-home-assistant/blob/main/blueprints/automation/lewisham_council_bins/reminder.yaml
+  input:
+    bin_sensor:
+      name: Bin sensor
+      description: The Lewisham Council Bin Collections sensor to watch.
+      selector:
+        entity:
+          filter:
+            - integration: lewisham_council_bins
+              domain: sensor
+    reminder_time:
+      name: Reminder time
+      description: The time each day to check whether the bin is collected tomorrow.
+      default: "20:00:00"
+      selector:
+        time: {}
+    notify_action:
+      name: Actions
+      description: >
+        The action(s) to run when the bin is collected tomorrow, e.g. a
+        notify action.
+      selector:
+        action: {}
+
+variables:
+  bin_sensor: !input bin_sensor
+
+trigger:
+  - trigger: time
+    at: !input reminder_time
+
+condition:
+  - condition: state
+    entity_id: !input bin_sensor
+    attribute: collection_in
+    state: tomorrow
+
+action: !input notify_action

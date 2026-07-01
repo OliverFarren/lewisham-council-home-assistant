@@ -57,7 +57,7 @@ rules:
     status: exempt
     comment: No discovered network devices to update.
   docs-data-update: done
-  docs-examples: todo
+  docs-examples: done
   docs-known-limitations: done
   docs-supported-devices:
     status: exempt
